@@ -1,0 +1,21 @@
+# Provisional configuration. Update after the team verifies the dataset,
+# label format, and task definition. These are not experimental results.
+project: methane-detection
+seed: 42
+data:
+  dataset_name: null
+  manifest: manifests/manifest.csv
+  split_file: manifests/splits.csv
+  num_workers: 0
+model:
+  name: baseline
+  task: segmentation
+  in_channels: null
+training:
+  epochs: 10
+  batch_size: 4
+  learning_rate: 0.001
+  device: auto
+evaluation:
+  threshold: 0.5
+  primary_metric: f1
