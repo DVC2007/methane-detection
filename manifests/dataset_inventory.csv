@@ -1,0 +1,12 @@
+dataset_name,source_url,access_status,license,sensor,task_labels,file_format,sample_count_verified,sample_opened,open_questions
+STARCOP,https://github.com/spaceml-org/STARCOP,verified_open,GPL-3.0,AVIRIS-NG,segmentation ,.tif,3208,yes,Individual TOA spectral bands stored as separate .tif files per scene; requires reader assembly into 3D array; wind vectors require ERA5 alignment
+MARS-EMIT,not verified,verified_open,not verified,EMIT,segmentation ,not verified,multi-scene,no,Is wind (ERA5) included per sample? What is the label format? Download size?
+CH4Net Benchmark,not verified,not_checked,not verified,Sentinel-2,segmentation ,not verified,10046,no,Are masks and scene-level labels both provided? Licence?
+S2MetNet,not verified,not_checked,not verified,Sentinel-2,not verified,not verified,7000,no,Are emission-rate targets and wind speeds provided with units?
+Synthetic Sentinel-2 (Rouet-Leduc),https://huggingface.co/datasets/tacofoundation/methaneset,verified_open,not verified,Sentinel-2,not verified,not verified,1.65M pairs,no,Is the full set downloadable or only a subset? Size?
+UnorthoDOS,not verified,not_checked,not verified,EMIT,not verified,not verified,not verified,no,Is the strong/weak split labelled in the files?
+Orthorectified EMIT Benchmark,not verified,not_checked,not verified,EMIT,not verified,not verified,not verified,no,Same questions as UnorthoDOS; relationship between the two?
+MARS-EnMAP,not verified,not_checked,not verified,EnMAP,segmentation ,not verified,multi scene,no,Access route and licence?
+MARS-PRISMA,not verified,not_checked,not verified,PRISMA,segmentation ,not verified,multi scene,no,Access route and licence? PRISMA data often needs registration.
+METER-ML,not verified,not_checked,not verified,Sentinel-2 + NAIP,source mapping,not verified,multi class,no,Source-mapping task; is it useful for plume segmentation at all?
+Four Corners AVIRIS-NG,not verified,not_checked,not verified,AVIRIS-NG,classif + seg,not verified,46 flight strip,no,Public access? Very large flight strips; feasible on our hardware?
