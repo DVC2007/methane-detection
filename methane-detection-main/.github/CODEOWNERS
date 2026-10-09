@@ -1,0 +1,11 @@
+# Replace @DVC2007 with the actual GitHub usernames of responsible owners.
+
+/.github/ @DVC2007
+/configs/ @DVC2007
+/reports/ @DVC2007
+/src/data/ @DVC2007
+/src/models/ @DVC2007
+/src/training/ @DVC2007
+/src/evaluation/ @DVC2007
+/src/physics/ @DVC2007
+/app/ @DVC2007
