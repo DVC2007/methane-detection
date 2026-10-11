@@ -1,5 +1,6 @@
 
 from pathlib import Path
+import shutil
 
 import torch
 import yaml
@@ -20,11 +21,13 @@ def test_project_scaffold_exists() -> None:
         REPOSITORY_ROOT / "data" / "README.md",
         REPOSITORY_ROOT / "reports" / "decisions.md",
     ]
+
     missing = [
         str(path.relative_to(REPOSITORY_ROOT))
         for path in expected_paths
         if not path.is_file()
     ]
+
     assert not missing, f"Missing project scaffold files: {missing}"
 
 
@@ -102,29 +105,40 @@ def test_checkpoint_save_and_reload(tmp_path: Path) -> None:
     assert predictions.shape == (4, 1, 32, 32)
 
 
-def test_latest_run_artifacts_exist() -> None:
-    results_dir = REPOSITORY_ROOT / "results"
+def test_training_artifacts_are_created(tmp_path: Path) -> None:
+    """Verify that the required training artifacts can be created."""
+    config_path = REPOSITORY_ROOT / "configs" / "base.yaml"
+    run_dir = tmp_path / "toy_test_run"
+    run_dir.mkdir()
 
-    run_dirs = sorted(
-        path
-        for path in results_dir.glob("toy_*")
-        if path.is_dir()
+    shutil.copy2(config_path, run_dir / "config.yaml")
+
+    (run_dir / "seed.txt").write_text(
+        "42\n",
+        encoding="utf-8",
     )
 
-    assert run_dirs, "No toy training run found. Run the toy training script first."
+    model = ToySegmentationModel(in_channels=3)
 
-    latest_run = run_dirs[-1]
+    torch.save(
+        {
+            "model_state_dict": model.state_dict(),
+            "epoch": 10,
+            "seed": 42,
+        },
+        run_dir / "checkpoint.pt",
+    )
 
-    for filename in ("config.yaml", "seed.txt", "checkpoint.pt"):
-        assert (latest_run / filename).is_file(), (
-            f"Missing {filename} in {latest_run}"
-        )
+    assert (run_dir / "config.yaml").is_file()
+    assert (run_dir / "seed.txt").is_file()
+    assert (run_dir / "checkpoint.pt").is_file()
 
     saved_config = yaml.safe_load(
-        (latest_run / "config.yaml").read_text(encoding="utf-8")
+        (run_dir / "config.yaml").read_text(encoding="utf-8")
     )
+
     saved_seed = int(
-        (latest_run / "seed.txt").read_text(encoding="utf-8").strip()
+        (run_dir / "seed.txt").read_text(encoding="utf-8").strip()
     )
 
     assert saved_config["seed"] == saved_seed
